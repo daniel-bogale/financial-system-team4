@@ -235,7 +235,11 @@ export function LoginFormClient() {
 						</form>
 					</Form>
 				</CardContent>
-				<CardFooter className="flex justify-center border-t  pt-4">
+				<CardFooter className="flex flex-col items-center border-t pt-4 gap-2">
+					<p className="text-xs">
+						Don&apos;t have an account?{' '}
+						<a href="/signup" className="text-primary underline">Sign up</a>
+					</p>
 					<p className="text-xs">
 						Restricted Access &bull; {branding?.name}
 					</p>

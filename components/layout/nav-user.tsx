@@ -73,7 +73,7 @@ export function NavUser({ user }: NavUserProps) {
                                                 </Badge>
                                             )}
                                         </div>
-                                        <span className='truncate text-xs'>{user.email}</span>
+                                        <span className='truncate text-xs max-w-43 overflow-hidden text-ellipsis block'>{user.email}</span>
                                     </div>
                                 </div>
                                 <ChevronsUpDown className='ms-auto size-4' />
@@ -100,12 +100,12 @@ export function NavUser({ user }: NavUserProps) {
                                                 </Badge>
                                             )}
                                         </div>
-                                        <span className='truncate text-xs'>{user.email}</span>
+                                        <span className='truncate text-xs max-w-45 overflow-hidden text-ellipsis block'>{user.email}</span>
                                     </div>
                                 </div>
                             </DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuGroup>
+                            {/* <DropdownMenuGroup>
                                 <DropdownMenuItem asChild>
                                     <Link href='/settings'>
                                         <BadgeCheck />
@@ -113,7 +113,7 @@ export function NavUser({ user }: NavUserProps) {
                                     </Link>
                                 </DropdownMenuItem>
                             </DropdownMenuGroup>
-                            <DropdownMenuSeparator />
+                            <DropdownMenuSeparator /> */}
                             <DropdownMenuItem
                                 variant='destructive'
                                 onClick={() => setOpen(true)}

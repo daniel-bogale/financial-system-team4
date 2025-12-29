@@ -9,11 +9,22 @@ import {
     SidebarSeparator,
 } from '@/components/ui/sidebar'
 import { sidebarData } from './data/sidebar-data'
-import { NavGroup } from './nav-group'
+
 import { NavUser } from './nav-user'
+import { NavGroup } from './nav-group'
+import { useUserProfile } from '@/hooks/use-user-profile'
 
 export function AppSidebar() {
-    const user = sidebarData.user
+    const { profile } = useUserProfile()
+    const user = profile
+        ? {
+            id: profile.id,
+            name: profile.full_name.split("@")[0],
+            email: profile.full_name,
+            avatar: '', // No avatar in profile, fallback to empty string
+            role: profile.role as import('@/lib/types').UserRole | null,
+        }
+        : sidebarData.user
 
     // Separate Settings group from other groups
     const settingsGroup = sidebarData.navGroups.find((group) => group.title === 'Settings')

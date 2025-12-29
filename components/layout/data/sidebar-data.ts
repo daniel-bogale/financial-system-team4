@@ -1,4 +1,4 @@
-import { Settings, Users, Home, LayoutDashboard } from "lucide-react";
+import { Users, Home } from "lucide-react";
 import { type SidebarData } from "../types";
 
 export const sidebarData: SidebarData = {
@@ -7,7 +7,7 @@ export const sidebarData: SidebarData = {
     name: "Loading...",
     email: "loading...",
     avatar: "",
-    role: "staff",
+    role: "STAFF",
   },
   teams: [],
   navGroups: [
@@ -20,26 +20,21 @@ export const sidebarData: SidebarData = {
           icon: Home,
         },
         {
-          title: "Dashboard",
-          url: "/dashboard",
-          icon: LayoutDashboard,
-        },
-        {
           title: "Users",
           url: "/users",
           icon: Users,
         },
       ],
     },
-    {
-      title: "Settings",
-      items: [
-        {
-          title: "Settings",
-          icon: Settings,
-          url: "/settings",
-        },
-      ],
-    },
+    // {
+    //   title: "Settings",
+    //   items: [
+    //     {
+    //       title: "Settings",
+    //       icon: Settings,
+    //       url: "/settings",
+    //     },
+    //   ],
+    // },
   ],
 };

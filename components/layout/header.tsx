@@ -20,6 +20,8 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Link from 'next/link'
+import { ProfileDropdown } from '@/components/profile-dropdown'
+import { useUserProfile } from '@/hooks/use-user-profile'
 import { Fragment } from 'react'
 
 export type BreadcrumbItemType = {
@@ -33,6 +35,7 @@ type HeaderProps = React.HTMLAttributes<HTMLElement> & {
     breadcrumbs?: BreadcrumbItemType[]
 }
 
+
 export function Header({
     className,
     fixed,
@@ -41,14 +44,22 @@ export function Header({
     ...props
 }: HeaderProps) {
     const [offset, setOffset] = useState(0)
+    const { profile } = useUserProfile()
+    const user = profile
+        ? {
+            id: profile.id,
+            name: profile.full_name.split("@")[0],
+            email: profile.full_name,
+            avatar: '',
+            role: profile.role as import('@/lib/types').UserRole | null,
+        }
+        : undefined
 
     useEffect(() => {
         const onScroll = () => {
             setOffset(document.body.scrollTop || document.documentElement.scrollTop)
         }
-
         document.addEventListener('scroll', onScroll, { passive: true })
-
         return () => document.removeEventListener('scroll', onScroll)
     }, [])
 
@@ -138,8 +149,10 @@ export function Header({
                         </BreadcrumbList>
                     </Breadcrumb>
                 ) : null}
-
                 {children}
+                <div className="hidden sm:block">
+                    <ProfileDropdown user={user} />
+                </div>
             </div>
         </header>
     )
