@@ -60,7 +60,7 @@ export function UnauthorizedError() {
                 clearInterval(interval)
             }
         }
-    }, [searchParams, router, supabase, t, locale])
+    }, [searchParams, router, supabase, locale])
 
     return (
         <div className='h-dvh'>

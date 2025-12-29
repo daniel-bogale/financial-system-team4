@@ -1,5 +1,10 @@
+import { Suspense } from 'react'
 import { LoginFormClient } from './login-form-client'
 
-export default async function LoginPage() {
-	return <LoginFormClient />
+export default function LoginPage() {
+	return (
+		<Suspense fallback={null}>
+			<LoginFormClient />
+		</Suspense>
+	)
 }

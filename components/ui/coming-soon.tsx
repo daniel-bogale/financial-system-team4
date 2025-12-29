@@ -1,10 +1,8 @@
 'use client'
 
 import { Telescope } from 'lucide-react'
-import { useTranslations } from 'next-intl'
 
 export function ComingSoon() {
-  const t = useTranslations('common2')
 
   return (
     <div
@@ -12,10 +10,10 @@ export function ComingSoon() {
     >
       <div className='m-auto flex h-full w-full flex-col items-center justify-center gap-2'>
         <Telescope size={72} />
-        <h1 className='text-4xl leading-tight font-bold'>{t('comingSoon')}</h1>
+        <h1 className='text-4xl leading-tight font-bold'>Coming Soon</h1>
         <p className='text-muted-foreground text-center'>
-          {t('comingSoonDescription')} <br />
-          {t('stayTuned')}
+          Feature under development<br />
+          Stay tuned for updates!
         </p>
       </div>
     </div>
