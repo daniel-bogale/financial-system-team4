@@ -54,7 +54,6 @@ export default function CashRequestDetailPage() {
     try {
       setError(null)
       const payload: any = { amount, purpose }
-      payload.budget_id = budgetId.trim() || null
       const { error } = await supabase
         .from('cash_requests')
         .update(payload)
@@ -97,8 +96,8 @@ export default function CashRequestDetailPage() {
 
       <div className="grid gap-4">
         <div className="space-y-1">
-          <label className="text-sm">Budget ID (optional)</label>
-          <input disabled={!canEditFields} value={budgetId} onChange={(e)=>setBudgetId(e.target.value)} className="w-full border rounded p-2 bg-background" />
+          <label className="text-sm">Budget ID</label>
+          <input readOnly disabled value={budgetId} className="w-full border rounded p-2 bg-muted text-muted-foreground" />
         </div>
         <div className="space-y-1">
           <label className="text-sm">Amount</label>
