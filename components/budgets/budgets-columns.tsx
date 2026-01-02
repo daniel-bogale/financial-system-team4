@@ -67,9 +67,7 @@ function BudgetActions({ budget }: { budget: Budget }) {
     startTransition(async () => {
       const result = await approveBudget(budget.id);
       if (result?.error) {
-        toast.error("Failed to approve budget", {
-          description: result.error,
-        });
+        toast.error("Failed to approve budget" + (result.error ? `: ${result.error}` : ''));
       } else {
         toast.success("Budget approved successfully");
         router.refresh();
@@ -82,9 +80,7 @@ function BudgetActions({ budget }: { budget: Budget }) {
     startTransition(async () => {
       const result = await rejectBudget(budget.id);
       if (result?.error) {
-        toast.error("Failed to reject budget", {
-          description: result.error,
-        });
+        toast.error("Failed to reject budget" + (result.error ? `: ${result.error}` : ''));
       } else {
         toast.success("Budget rejected successfully");
         router.refresh();

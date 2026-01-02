@@ -28,7 +28,7 @@ export default function NewCashRequestPage() {
           setBudgetsError(error.message)
           setBudgets([])
         } else {
-          setBudgets((data as any[])?.map(b => ({ id: b.id})))
+          setBudgets((data as any[])?.map(b => ({ id: b.id })))
         }
       } catch (_) {
         setBudgetsError('Failed to load budgets')
@@ -55,10 +55,10 @@ export default function NewCashRequestPage() {
       payload.budget_id = selectedBudgetId
       const { error } = await supabase.from('cash_requests').insert(payload)
       if (error) throw error
-      router.push('/cash-requests')
+      router.push('/cash')
       router.refresh()
     } catch (e: any) {
-      setError(e.message ?? 'Failed to create request')
+      setError(e.message ?? 'Failed to create cash')
     } finally {
       setLoading(false)
     }
@@ -66,7 +66,7 @@ export default function NewCashRequestPage() {
 
   return (
     <div className="max-w-xl space-y-4">
-      <h1 className="text-xl font-semibold">New Cash Request</h1>
+      <h1 className="text-xl font-semibold">New Cash</h1>
       <form onSubmit={submit} className="space-y-4">
         <div className="space-y-1">
           <label className="text-sm">Budget <span className="text-red-600">*</span></label>
@@ -79,11 +79,11 @@ export default function NewCashRequestPage() {
           ) : (
             <select
               value={selectedBudgetId}
-              onChange={(e)=>setSelectedBudgetId(e.target.value)}
+              onChange={(e) => setSelectedBudgetId(e.target.value)}
               className="w-full border rounded p-2 bg-background"
             >
               <option value="" disabled>Choose a budget...</option>
-              {budgets.map((b)=>{
+              {budgets.map((b) => {
                 const label = b.department ?? b.id
                 return <option key={b.id} value={b.id}>{label}</option>
               })}
@@ -92,18 +92,18 @@ export default function NewCashRequestPage() {
         </div>
         <div className="space-y-1">
           <label className="text-sm">Amount</label>
-          <input type="number" min={0} step="1" value={amount} onChange={(e)=>setAmount(Number(e.target.value))} className="w-full border rounded p-2 bg-background" required />
+          <input type="number" min={0} step="1" value={amount} onChange={(e) => setAmount(Number(e.target.value))} className="w-full border rounded p-2 bg-background" required />
         </div>
         <div className="space-y-1">
           <label className="text-sm">Description</label>
-          <textarea value={purpose} onChange={(e)=>setPurpose(e.target.value)} className="w-full border rounded p-2 bg-background" required />
+          <textarea value={purpose} onChange={(e) => setPurpose(e.target.value)} className="w-full border rounded p-2 bg-background" required />
         </div>
         {error && <div className="text-sm text-red-600">{error}</div>}
         <div className="flex gap-2">
           <button type="submit" disabled={loading} className="px-3 py-2 rounded bg-primary text-primary-foreground disabled:opacity-50">
             {loading ? 'Creating...' : 'Create'}
           </button>
-          <button type="button" onClick={()=>router.back()} className="px-3 py-2 rounded border">Cancel</button>
+          <button type="button" onClick={() => router.back()} className="px-3 py-2 rounded border">Cancel</button>
         </div>
       </form>
     </div>

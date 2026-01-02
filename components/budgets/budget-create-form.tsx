@@ -88,9 +88,7 @@ export function BudgetCreateForm({
       const result = await createBudget(null, formData);
 
       if (result?.error) {
-        toast.error("Failed to create budget", {
-          description: result.error,
-        });
+        toast.error("Failed to create budget: " + result.error);
       } else {
         toast.success("Budget created successfully");
         form.reset();

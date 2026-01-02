@@ -59,26 +59,20 @@ export function SignupFormClient() {
             })
 
             if (error) {
-                toast.error('Sign up failed', {
-                    description: error.message,
-                })
+                toast.error('Sign up failed' + (error.message ? `: ${error.message}` : ''))
                 setLoading(false)
                 return
             }
 
             if (data.user) {
-                toast.success('Account created', {
-                    description: 'You have been signed up successfully.',
-                })
+                toast.success('Account created')
                 // Automatically log in the user after signup
                 const { error: loginError } = await supabase.auth.signInWithPassword({
                     email: values.email,
                     password: values.password,
                 })
                 if (loginError) {
-                    toast.error('Auto-login failed', {
-                        description: loginError.message,
-                    })
+                    toast.error('Auto-login failed' + (loginError.message ? `: ${loginError.message}` : ''))
                     setLoading(false)
                     router.replace('/login')
                     return
@@ -87,9 +81,7 @@ export function SignupFormClient() {
             }
         } catch (error) {
             const errMsg = error instanceof Error ? error.message : 'An unexpected error occurred';
-            toast.error('Sign up failed', {
-                description: errMsg,
-            })
+            toast.error('Sign up failed' + (errMsg ? `: ${errMsg}` : ''))
             setLoading(false)
         }
     }

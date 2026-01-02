@@ -47,9 +47,7 @@ export function LoginFormClient() {
 	useEffect(() => {
 		const error = searchParams.get('error')
 		if (error === 'access_revoked') {
-			toast.error('Access Revoked', {
-				description: 'Your access has been revoked. Please contact your administrator.',
-			})
+			toast.error('Access Revoked: Your access has been revoked. Please contact support for assistance.')
 			// Clean up the URL by removing the error parameter
 			const params = new URLSearchParams(searchParams.toString())
 			params.delete('error')
@@ -109,17 +107,13 @@ export function LoginFormClient() {
 
 			if (error) {
 				const errorMessage = getErrorMessage(error)
-				toast.error('Sign in failed', {
-					description: errorMessage,
-				})
+				toast.error(`Sign in failed ${errorMessage ? `: ${errorMessage}` : ''}`)
 				setLoading(false)
 				return
 			}
 
 			if (data.session) {
-				toast.success('Signed in successfully', {
-					description: 'Welcome back',
-				})
+				toast.success('Signed in successfully')
 				try {
 					router.replace('/home')
 				} catch (redirectError: unknown) {
@@ -136,9 +130,7 @@ export function LoginFormClient() {
 			// Check if this is a NEXT_REDIRECT error (which is actually success)
 			if (isNextRedirectError(error)) {
 				// NEXT_REDIRECT is expected behavior for successful redirects
-				toast.success('Signed in successfully', {
-					description: 'Welcome back',
-				})
+				toast.success('Signed in successfully')
 				return
 			}
 
@@ -146,9 +138,7 @@ export function LoginFormClient() {
 			const errorMessage = error instanceof Error
 				? getErrorMessage(error)
 				: 'An unexpected error occurred'
-			toast.error('Sign in failed', {
-				description: errorMessage,
-			})
+			toast.error('Sign in failed' + (errorMessage ? `: ${errorMessage}` : ''))
 			setLoading(false)
 		}
 	}

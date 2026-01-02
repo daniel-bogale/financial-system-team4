@@ -25,8 +25,8 @@ export const sidebarData: SidebarData = {
           icon: Users,
         },
         {
-          title: "Cash Requests",
-          url: "/cash-requests",
+          title: "Cash",
+          url: "/cash",
           icon: Wallet,
         },
         {
