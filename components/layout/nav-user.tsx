@@ -64,16 +64,16 @@ export function NavUser({ user }: NavUserProps) {
                                         <AvatarImage src={user.avatar || undefined} alt={user?.name || ''} />
                                         <AvatarFallback className='rounded-none'>{getInitials(user?.name || '')}</AvatarFallback>
                                     </Avatar>
-                                    <div className='grid flex-1 text-start text-xs leading-tight'>
-                                        <div className='flex items-center gap-2'>
-                                            <span className='truncate font-semibold'>{user.name}</span>
+                                    <div className='grid flex-1 text-start text-xs leading-tight min-w-0'>
+                                        <div className='flex items-center gap-2 min-w-0'>
+                                            <span className='truncate font-semibold flex-1 min-w-0'>{user.name}</span>
                                             {user.role && (
-                                                <Badge variant="secondary" className="text-xs px-1.5 py-0">
+                                                <Badge variant="secondary" className="text-xs px-1.5 py-0 shrink-0">
                                                     {formatRole(user.role)}
                                                 </Badge>
                                             )}
                                         </div>
-                                        <span className='truncate text-xs max-w-43 overflow-hidden text-ellipsis block'>{user.email}</span>
+                                        <span className='truncate text-xs'>{user.email}</span>
                                     </div>
                                 </div>
                                 <ChevronsUpDown className='ms-auto size-4' />
@@ -91,16 +91,16 @@ export function NavUser({ user }: NavUserProps) {
                                         <AvatarImage src={user.avatar} alt={user?.name || ''} />
                                         <AvatarFallback className='rounded-none'>{getInitials(user?.name || '')}</AvatarFallback>
                                     </Avatar>
-                                    <div className='grid flex-1 text-start text-xs leading-tight'>
-                                        <div className='flex items-center gap-2'>
-                                            <span className='truncate font-semibold'>{user.name}</span>
+                                    <div className='grid flex-1 text-start text-xs leading-tight min-w-0'>
+                                        <div className='flex items-center gap-2 min-w-0'>
+                                            <span className='truncate font-semibold flex-1 min-w-0'>{user.name}</span>
                                             {user.role && (
-                                                <Badge variant="secondary" className="text-xs px-1.5 py-0">
+                                                <Badge variant="secondary" className="text-xs px-1.5 py-0 shrink-0">
                                                     {formatRole(user.role)}
                                                 </Badge>
                                             )}
                                         </div>
-                                        <span className='truncate text-xs max-w-45 overflow-hidden text-ellipsis block'>{user.email}</span>
+                                        <span className='truncate text-xs'>{user.email}</span>
                                     </div>
                                 </div>
                             </DropdownMenuLabel>
