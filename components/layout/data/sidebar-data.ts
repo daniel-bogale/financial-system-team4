@@ -1,4 +1,4 @@
-import { Users, Home, Wallet, ReceiptText } from "lucide-react";
+import { Users, Home, Wallet, ReceiptText, Settings } from "lucide-react";
 import { type SidebarData } from "../types";
 
 export const sidebarData: SidebarData = {
@@ -41,15 +41,15 @@ export const sidebarData: SidebarData = {
         },
       ],
     },
-    // {
-    //   title: "Settings",
-    //   items: [
-    //     {
-    //       title: "Settings",
-    //       icon: Settings,
-    //       url: "/settings",
-    //     },
-    //   ],
-    // },
+    {
+      title: "Settings",
+      items: [
+        {
+          title: "Settings",
+          icon: Settings,
+          url: "/settings",
+        },
+      ],
+    },
   ],
 };

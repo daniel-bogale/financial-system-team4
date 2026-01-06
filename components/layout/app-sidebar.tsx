@@ -17,13 +17,7 @@ import { useUserProfile } from '@/hooks/use-user-profile'
 export function AppSidebar() {
     const { profile } = useUserProfile()
     const user = profile
-        ? {
-            id: profile.id,
-            name: profile.full_name.split("@")[0],
-            email: profile.full_name,
-            avatar: '', // No avatar in profile, fallback to empty string
-            role: profile.role as import('@/lib/types').UserRole | null,
-        }
+        ? profile
         : sidebarData.user
 
     // Filter navigation items based on user role

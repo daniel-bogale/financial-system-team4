@@ -4,7 +4,9 @@ import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 export type Profile = {
   id: string;
   full_name: string;
+  email: string;
   role: string;
+  avatar: string | null;
 };
 
 export function useUserProfile() {
@@ -37,6 +39,8 @@ export function useUserProfile() {
         id: user.id,
         full_name: fullName,
         role: role,
+        email: user.email!,
+        avatar: user.user_metadata?.avatar_url
       });
 
       setLoading(false);

@@ -46,13 +46,7 @@ export function Header({
     const [offset, setOffset] = useState(0)
     const { profile } = useUserProfile()
     const user = profile
-        ? {
-            id: profile.id,
-            name: profile.full_name.split("@")[0],
-            email: profile.full_name,
-            avatar: '',
-            role: profile.role as import('@/lib/types').UserRole | null,
-        }
+        ? profile
         : undefined
 
     useEffect(() => {

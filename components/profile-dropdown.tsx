@@ -14,10 +14,10 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { SignOutDialog } from '@/components/sign-out-dialog'
-import type { UserProfile } from '@/lib/types'
+import { Profile } from '@/hooks/use-user-profile'
 
 type ProfileDropdownProps = {
-    user?: UserProfile
+    user?: Profile
 }
 
 export function ProfileDropdown({ user }: ProfileDropdownProps) {
@@ -38,7 +38,7 @@ export function ProfileDropdown({ user }: ProfileDropdownProps) {
         return role.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
     }
 
-    const displayName = user?.name || 'User'
+    const displayName = user?.full_name || 'User'
     const displayEmail = user?.email || 'user@example.com'
     const displayAvatar = user?.avatar || ''
     const displayRole = user?.role
@@ -83,9 +83,9 @@ export function ProfileDropdown({ user }: ProfileDropdownProps) {
                     <DropdownMenuSeparator /> */}
                     <DropdownMenuItem variant='destructive' onClick={() => setOpen(true)}>
                         Sign out
-                        <DropdownMenuShortcut className='text-current'>
+                        {/* <DropdownMenuShortcut className='text-current'>
                             ⇧⌘Q
-                        </DropdownMenuShortcut>
+                        </DropdownMenuShortcut> */}
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

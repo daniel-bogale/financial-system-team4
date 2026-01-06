@@ -24,11 +24,11 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from '@/components/ui/sidebar'
-import type { UserProfile } from '@/lib/types'
 import { SignOutDialog } from '../sign-out-dialog'
+import { Profile } from '@/hooks/use-user-profile'
 
 type NavUserProps = {
-    user: UserProfile
+    user: Profile
 }
 
 export function NavUser({ user }: NavUserProps) {
@@ -61,12 +61,12 @@ export function NavUser({ user }: NavUserProps) {
                             >
                                 <div className='flex items-center gap-2 px-1 py-1.5 text-start text-xs'>
                                     <Avatar className='h-8 w-8 rounded-none'>
-                                        <AvatarImage src={user.avatar || undefined} alt={user?.name || ''} />
-                                        <AvatarFallback className='rounded-none'>{getInitials(user?.name || '')}</AvatarFallback>
+                                        <AvatarImage src={user.avatar || undefined} alt={user?.full_name || ''} />
+                                        <AvatarFallback className='rounded-none'>{getInitials(user?.full_name || '')}</AvatarFallback>
                                     </Avatar>
                                     <div className='grid flex-1 text-start text-xs leading-tight min-w-0'>
                                         <div className='flex items-center gap-2 min-w-0'>
-                                            <span className='truncate font-semibold flex-1 min-w-0'>{user.name}</span>
+                                            <span className='truncate font-semibold flex-1 min-w-0'>{user.full_name}</span>
                                             {user.role && (
                                                 <Badge variant="secondary" className="text-xs px-1.5 py-0 shrink-0">
                                                     {formatRole(user.role)}
@@ -88,12 +88,12 @@ export function NavUser({ user }: NavUserProps) {
                             <DropdownMenuLabel className='p-0 font-normal'>
                                 <div className='flex items-center gap-2 px-1 py-1.5 text-start text-xs'>
                                     <Avatar className='h-8 w-8 rounded-none'>
-                                        <AvatarImage src={user.avatar} alt={user?.name || ''} />
-                                        <AvatarFallback className='rounded-none'>{getInitials(user?.name || '')}</AvatarFallback>
+                                        <AvatarImage src={user.avatar} alt={user?.full_name || ''} />
+                                        <AvatarFallback className='rounded-none'>{getInitials(user?.full_name || '')}</AvatarFallback>
                                     </Avatar>
                                     <div className='grid flex-1 text-start text-xs leading-tight min-w-0'>
                                         <div className='flex items-center gap-2 min-w-0'>
-                                            <span className='truncate font-semibold flex-1 min-w-0'>{user.name}</span>
+                                            <span className='truncate font-semibold flex-1 min-w-0'>{user.full_name}</span>
                                             {user.role && (
                                                 <Badge variant="secondary" className="text-xs px-1.5 py-0 shrink-0">
                                                     {formatRole(user.role)}
