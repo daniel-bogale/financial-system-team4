@@ -1,12 +1,10 @@
 import { Main } from "@/components/layout/main";
 import { CashRequestsClient } from "@/components/cash-requests/cash-requests-client";
+import { AddCashButton } from "@/components/cash-requests/add-cash-button";
 import { getCashRequests } from "@/lib/actions/cash-requests";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { loadCashRequestsSearchParams } from "./search-params";
 import type { SearchParams } from "nuqs/server";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
 
 // Force dynamic rendering since we use search params
 export const dynamic = 'force-dynamic';
@@ -51,12 +49,7 @@ export default async function CashRequestsPage({ searchParams }: CashRequestsPag
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <h1 className="text-4xl font-bold tracking-tight text-foreground">Cash</h1>
-            <Button asChild>
-              <Link href="/cash/new">
-                <Plus className="mr-2 h-4 w-4" />
-                New Cash
-              </Link>
-            </Button>
+            <AddCashButton />
           </div>
           <p className="text-base text-muted-foreground">
             {isFinance

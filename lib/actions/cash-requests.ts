@@ -220,3 +220,62 @@ export async function deleteCashRequest(id: string) {
     return { error: "Failed to delete cash" };
   }
 }
+
+export async function createCashRequest(
+  _prevState: unknown,
+  formData: FormData
+) {
+  try {
+    const supabase = await createSupabaseServerClient();
+
+    const budgetId = formData.get("budget_id") as string;
+    const amount = parseFloat(formData.get("amount") as string);
+    const purpose = formData.get("purpose") as string;
+
+    if (!budgetId) {
+      return { error: "Budget is required" };
+    }
+
+    if (isNaN(amount) || amount <= 0) {
+      return { error: "Amount must be a positive number" };
+    }
+
+    if (!purpose?.trim()) {
+      return { error: "Purpose is required" };
+    }
+
+    const { error } = await supabase.from("cash_requests").insert({
+      budget_id: budgetId,
+      amount,
+      purpose: purpose.trim(),
+    });
+
+    if (error) {
+      return { error: error.message };
+    }
+
+    revalidatePath("/cash");
+    return { success: true };
+  } catch {
+    return { error: "Failed to create cash request" };
+  }
+}
+
+export async function getBudgetsForCashRequest() {
+  try {
+    const supabase = await createSupabaseServerClient();
+
+    const { data, error } = await supabase
+      .from("budgets")
+      .select("id, department")
+      .order("department", { ascending: true });
+
+    if (error) {
+      return { data: [], error: error.message };
+    }
+
+    return { data: data || [], error: null };
+  } catch {
+    return { data: [], error: "Failed to load budgets" };
+  }
+}
