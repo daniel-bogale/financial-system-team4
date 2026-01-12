@@ -1,4 +1,4 @@
-import { Users, Home } from "lucide-react";
+import { Users, Home, DollarSign, Plus, FileText, BarChart3 } from "lucide-react";
 import { type SidebarData } from "../types";
 
 export const sidebarData: SidebarData = {
@@ -26,15 +26,31 @@ export const sidebarData: SidebarData = {
         },
       ],
     },
-    // {
-    //   title: "Settings",
-    //   items: [
-    //     {
-    //       title: "Settings",
-    //       icon: Settings,
-    //       url: "/settings",
-    //     },
-    //   ],
-    // },
+    {
+      title: "Budget",
+      items: [
+        {
+          title: "Budget Overview",
+          url: "/budget",
+          icon: DollarSign,
+        },
+        {
+          title: "Budget Management",
+          icon: BarChart3,
+          items: [
+            {
+              title: "Create Cash Request",
+              url: "/budget/create",
+              icon: Plus,
+            },
+            {
+              title: "Cash Requests",
+              url: "/budget/requests",
+              icon: FileText,
+            },
+          ],
+        },
+      ],
+    },
   ],
 };
