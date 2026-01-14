@@ -142,6 +142,28 @@ export async function approveCashRequest(id: string) {
   try {
     const supabase = await createSupabaseServerClient();
 
+    // Get current user
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      return { error: "Authentication required." };
+    }
+
+    // Get user role from JWT app_metadata
+    const userRole = (user.app_metadata?.role as string) || null;
+
+    if (!userRole) {
+      return { error: "Failed to fetch user role." };
+    }
+
+    // Check if user is FINANCE
+    if (userRole !== "FINANCE") {
+      return { error: "Only FINANCE users can approve cash requests." };
+    }
+
     const { error } = await supabase
       .from("cash_requests")
       .update({ status: "APPROVED" })
@@ -163,6 +185,28 @@ export async function rejectCashRequest(id: string) {
   try {
     const supabase = await createSupabaseServerClient();
 
+    // Get current user
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      return { error: "Authentication required." };
+    }
+
+    // Get user role from JWT app_metadata
+    const userRole = (user.app_metadata?.role as string) || null;
+
+    if (!userRole) {
+      return { error: "Failed to fetch user role." };
+    }
+
+    // Check if user is FINANCE
+    if (userRole !== "FINANCE") {
+      return { error: "Only FINANCE users can reject cash requests." };
+    }
+
     const { error } = await supabase
       .from("cash_requests")
       .update({ status: "REJECTED" })
@@ -183,6 +227,28 @@ export async function rejectCashRequest(id: string) {
 export async function disburseCashRequest(id: string) {
   try {
     const supabase = await createSupabaseServerClient();
+
+    // Get current user
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      return { error: "Authentication required." };
+    }
+
+    // Get user role from JWT app_metadata
+    const userRole = (user.app_metadata?.role as string) || null;
+
+    if (!userRole) {
+      return { error: "Failed to fetch user role." };
+    }
+
+    // Check if user is FINANCE
+    if (userRole !== "FINANCE") {
+      return { error: "Only FINANCE users can disburse cash requests." };
+    }
 
     const { error } = await supabase
       .from("cash_requests")
@@ -228,6 +294,16 @@ export async function createCashRequest(
   try {
     const supabase = await createSupabaseServerClient();
 
+    // Get current user
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      return { error: "Authentication required." };
+    }
+
     const budgetId = formData.get("budget_id") as string;
     const amount = parseFloat(formData.get("amount") as string);
     const purpose = formData.get("purpose") as string;
@@ -244,10 +320,34 @@ export async function createCashRequest(
       return { error: "Purpose is required" };
     }
 
+    // Validate budget exists and is APPROVED
+    const { data: budget, error: budgetError } = await supabase
+      .from("budgets")
+      .select("id, amount, used, status")
+      .eq("id", budgetId)
+      .single();
+
+    if (budgetError || !budget) {
+      return { error: "Budget not found" };
+    }
+
+    if (budget.status !== "APPROVED") {
+      return { error: "Cash requests can only be created for approved budgets" };
+    }
+
+    // Validate amount doesn't exceed remaining budget
+    const remaining = budget.amount - (budget.used || 0);
+    if (amount > remaining) {
+      return {
+        error: `Amount exceeds remaining budget. Available: ${remaining.toFixed(2)}`,
+      };
+    }
+
     const { error } = await supabase.from("cash_requests").insert({
       budget_id: budgetId,
       amount,
       purpose: purpose.trim(),
+      created_by: user.id,
     });
 
     if (error) {
@@ -256,8 +356,11 @@ export async function createCashRequest(
 
     revalidatePath("/cash");
     return { success: true };
-  } catch {
-    return { error: "Failed to create cash request" };
+  } catch (error) {
+    console.error("Unexpected error in createCashRequest:", error);
+    return {
+      error: error instanceof Error ? error.message : "Failed to create cash request",
+    };
   }
 }
 
@@ -265,9 +368,11 @@ export async function getBudgetsForCashRequest() {
   try {
     const supabase = await createSupabaseServerClient();
 
+    // Only return APPROVED budgets
     const { data, error } = await supabase
       .from("budgets")
-      .select("id, department")
+      .select("id, department, amount, used, status")
+      .eq("status", "APPROVED")
       .order("department", { ascending: true });
 
     if (error) {

@@ -23,13 +23,28 @@ export interface DashboardStats {
   };
 }
 
-export async function getDashboardStats(): Promise<DashboardStats> {
+export async function getDashboardStats(userId?: string, userRole?: string | null): Promise<DashboardStats> {
   const supabase = await createSupabaseServerClient();
 
+  // Finance Team: Full access to all reports
+  // General Staff: Limited to their own requests/budgets
+  const isFinance = userRole === "FINANCE";
+
+  // Build base queries
+  let expensesQuery = supabase.from("expenses").select("*", { count: "exact" });
+  let budgetsQuery = supabase.from("budgets").select("*", { count: "exact" });
+  let cashRequestsQuery = supabase.from("cash_requests").select("*", { count: "exact" });
+
+  // Filter by user if not Finance
+  if (!isFinance && userId) {
+    budgetsQuery = budgetsQuery.eq("created_by", userId);
+    cashRequestsQuery = cashRequestsQuery.eq("created_by", userId);
+    // Expenses are created by Finance, but Staff can see expenses linked to their budgets
+    // For simplicity, Finance-created expenses are visible to all, but we could filter by budget_id if needed
+  }
+
   // Fetch Expenses Stats
-  const { data: expensesData, count: expensesCount } = await supabase
-    .from("expenses")
-    .select("*", { count: "exact" })
+  const { data: expensesData, count: expensesCount } = await expensesQuery
     .order("created_at", { ascending: false });
 
   const expensesAmount = (expensesData || []).reduce(
@@ -38,9 +53,7 @@ export async function getDashboardStats(): Promise<DashboardStats> {
   );
 
   // Fetch Budgets Stats
-  const { data: budgetsData, count: budgetsCount } = await supabase
-    .from("budgets")
-    .select("*", { count: "exact" })
+  const { data: budgetsData, count: budgetsCount } = await budgetsQuery
     .order("created_at", { ascending: false });
 
   const budgetsAmount = (budgetsData || []).reduce(
@@ -49,9 +62,7 @@ export async function getDashboardStats(): Promise<DashboardStats> {
   );
 
   // Fetch Cash Requests Stats
-  const { data: cashRequestsData, count: cashRequestsCount } = await supabase
-    .from("cash_requests")
-    .select("*", { count: "exact" })
+  const { data: cashRequestsData, count: cashRequestsCount } = await cashRequestsQuery
     .order("created_at", { ascending: false });
 
   const cashRequestsAmount = (cashRequestsData || []).reduce(

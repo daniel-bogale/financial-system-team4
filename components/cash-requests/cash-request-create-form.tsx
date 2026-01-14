@@ -57,6 +57,9 @@ interface CashRequestCreateFormProps {
 interface Budget {
     id: string;
     department: string | null;
+    amount?: number;
+    used?: number;
+    status?: string;
 }
 
 export function CashRequestCreateForm({

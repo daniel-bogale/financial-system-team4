@@ -30,6 +30,7 @@ type ExpensesTableProps = {
     data: Expense[]
     total: number
     totalPages: number
+    userRole?: string | null
 }
 
 const ALLOWED_SORT_COLUMNS = new Set([
@@ -39,7 +40,7 @@ const ALLOWED_SORT_COLUMNS = new Set([
     'created_at',
 ])
 
-export function ExpensesTable({ data, total, totalPages }: ExpensesTableProps) {
+export function ExpensesTable({ data, total, totalPages, userRole }: ExpensesTableProps) {
     const [rowSelection, setRowSelection] = useState({})
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
 
@@ -142,7 +143,7 @@ export function ExpensesTable({ data, total, totalPages }: ExpensesTableProps) {
         })
     }
 
-    const columns = createExpensesColumns()
+    const columns = createExpensesColumns(userRole)
 
     const table = useReactTable({
         data,

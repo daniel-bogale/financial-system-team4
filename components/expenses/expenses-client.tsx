@@ -11,14 +11,16 @@ interface ExpensesClientProps {
         pageSize: number;
         totalPages: number;
     };
+    userRole?: string | null;
 }
 
-export function ExpensesClient({ expenses, pagination }: ExpensesClientProps) {
+export function ExpensesClient({ expenses, pagination, userRole }: ExpensesClientProps) {
     return (
         <ExpensesTable
             data={expenses}
             total={pagination.total}
             totalPages={pagination.totalPages}
+            userRole={userRole}
         />
     );
 }
