@@ -20,18 +20,11 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { createCashRequest } from '@/lib/api/cash-requests'
 
 const createCashRequestSchema = z.object({
-    budget_id: z.string().optional(),
     amount: z.number().min(1, 'Amount must be greater than 0'),
     purpose: z.string().min(5, 'Purpose must be at least 5 characters'),
 })
@@ -47,7 +40,6 @@ export function CreateCashRequestForm() {
         defaultValues: {
             amount: 0,
             purpose: '',
-            budget_id: undefined,
         },
     })
 
@@ -57,7 +49,7 @@ export function CreateCashRequestForm() {
             await createCashRequest({
                 amount: data.amount,
                 purpose: data.purpose,
-                budget_id: data.budget_id || null,
+                budget_id: null,
             })
 
             toast.success('Cash request created successfully')
@@ -116,30 +108,7 @@ export function CreateCashRequestForm() {
                             )}
                         />
 
-                        <FormField
-                            control={form.control}
-                            name="budget_id"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Budget (Optional)</FormLabel>
-                                    <Select
-  onValueChange={(v) => field.onChange(v === 'none' ? undefined : v)}
-  value={field.value ?? 'none'}
->
-  <FormControl>
-    <SelectTrigger>
-      <SelectValue placeholder="Select a budget (optional)" />
-    </SelectTrigger>
-  </FormControl>
-  <SelectContent>
-    <SelectItem value="none">No specific budget</SelectItem>
-    {/* Add budget options here */}
-  </SelectContent>
-</Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+
 
                         <div className="flex gap-4">
                             <Button
