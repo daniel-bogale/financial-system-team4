@@ -88,7 +88,7 @@ export function NavUser({ user }: NavUserProps) {
                             <DropdownMenuLabel className='p-0 font-normal'>
                                 <div className='flex items-center gap-2 px-1 py-1.5 text-start text-xs'>
                                     <Avatar className='h-8 w-8 rounded-none'>
-                                        <AvatarImage src={user.avatar} alt={user?.full_name || ''} />
+                                        <AvatarImage src={user.avatar || undefined} alt={user?.full_name || ''} />
                                         <AvatarFallback className='rounded-none'>{getInitials(user?.full_name || '')}</AvatarFallback>
                                     </Avatar>
                                     <div className='grid flex-1 text-start text-xs leading-tight min-w-0'>

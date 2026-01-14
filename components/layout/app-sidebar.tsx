@@ -18,7 +18,13 @@ export function AppSidebar() {
     const { profile } = useUserProfile()
     const user = profile
         ? profile
-        : sidebarData.user
+        : {
+            id: sidebarData.user.id,
+            full_name: sidebarData.user.name,
+            email: sidebarData.user.email,
+            role: sidebarData.user.role || 'STAFF',
+            avatar: sidebarData.user.avatar || null,
+        }
 
     // Filter navigation items based on user role
     const filteredNavGroups = sidebarData.navGroups.map(group => ({
